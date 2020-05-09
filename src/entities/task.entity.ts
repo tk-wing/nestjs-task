@@ -6,18 +6,18 @@ export enum TaskStatus {
 
 export interface ITaskEntity {
   id: number;
-  user_id: number;
+  // user_id: number;
   title: string;
   description: string;
   status: TaskStatus;
-  expiredAt: string;
+  expiredAt: Date;
 }
 
 export class TaskEntity implements ITaskEntity {
   id = 0;
-  user_id = 0;
+  // user_id = 0;
   title = '';
   description = '';
-  status = TaskStatus.OPEN;
-  expiredAt = '';
+  status!: TaskStatus;
+  expiredAt!: Date;
 }

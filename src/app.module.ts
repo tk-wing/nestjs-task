@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm-config.service';
 import { TaskModule } from './task/task.module';
-import { TaskGateway } from './task.gateway';
 
 @Module({
   imports: [
@@ -16,6 +15,5 @@ import { TaskGateway } from './task.gateway';
     TaskModule,
   ],
   controllers: [],
-  providers: [TaskGateway],
 })
 export class AppModule {}

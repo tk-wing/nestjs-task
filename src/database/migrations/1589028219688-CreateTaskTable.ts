@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-import { TaskStatus } from '../../entities/task.entity';
+import { TaskStatus } from '../../models/task/task.model';
 
 export class CreateTaskTable1589028219688 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
@@ -35,24 +35,24 @@ export class CreateTaskTable1589028219688 implements MigrationInterface {
           },
           {
             name: 'expired_at',
-            type: 'timestamp',
+            type: 'datetime',
             isNullable: true,
           },
           {
             name: 'created_at',
-            type: 'timestamp',
-            default: 'current_timestamp',
+            type: 'datetime',
+            default: 'CURRENT_TIMESTAMP',
             isNullable: true,
           },
           {
             name: 'updated_at',
-            type: 'timestamp',
-            default: 'current_timestamp on update current_timestamp',
+            type: 'datetime',
+            default: 'CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP',
             isNullable: true,
           },
           {
             name: 'deleted_at',
-            type: 'timestamp',
+            type: 'datetime',
             isNullable: true,
           }
         ],

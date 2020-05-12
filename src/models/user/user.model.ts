@@ -1,4 +1,3 @@
-import Service from "../service";
 import * as bcrypt from 'bcryptjs';
 
 
@@ -10,10 +9,10 @@ export interface IUserModel {
 }
 
 export class UserModel implements IUserModel {
-  username = '';
-  mail = '';
-  password = '';
-  salt = '';
+  username: string;
+  mail: string;
+  password!: string;
+  salt!: string;
 
   constructor(username: string, mail: string, password: string) {
     this.username = username;

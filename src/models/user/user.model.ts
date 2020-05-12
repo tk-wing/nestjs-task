@@ -1,4 +1,5 @@
 import Service from "../service";
+import * as bcrypt from 'bcryptjs';
 
 
 export interface IUserModel {
@@ -13,13 +14,16 @@ export class UserModel implements IUserModel {
   mail = '';
   password = '';
   salt = '';
-}
 
-export class UserService extends Service<IUserModel> {
-  async isExist(user: IUserModel): Promise<boolean> {
-    const result = this.repository.findOne({ username: user.username});
+  constructor(username: string, mail: string, password: string) {
+    this.username = username;
+    this.mail = mail;
+    this.hash(password);
+  }
 
-    return result !== undefined;
+  private async hash(password: string): Promise<void> {
+    this.salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(password, this.salt);
   }
 }
 

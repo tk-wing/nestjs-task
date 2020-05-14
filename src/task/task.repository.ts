@@ -19,8 +19,9 @@ export class TaskRepository extends ITaskRepository {
   }
 
   async getTasks(paginationOptions: IPaginationOptions, user: User): Promise<Pagination<Task>> {
-    const builder = this.createQueryBuilder();
-    builder.orderBy('created_at', 'DESC');
+    const builder = this.createQueryBuilder('users');
+    builder.where('user_id =:userId', { userId: user.id})
+    .orderBy('created_at', 'DESC');
 
     return await paginate<Task>(builder, paginationOptions);
   }

@@ -20,7 +20,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../decorator/get-user.decorator';
 import { User } from '../entities/user.entity';
 import { PaginationDto } from '../models/pagination.dto';
-import { isNumber } from 'util';
 
 @Controller('task')
 @UseGuards(AuthGuard())

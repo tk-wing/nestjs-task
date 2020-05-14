@@ -1,4 +1,8 @@
-import { Injectable, ConflictException, UnauthorizedException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthSignupDto } from '../models/auth/dto/auth-signup.dto';
 import { UserModel } from '../models/user/user.model';
 import { IAuthService } from 'src/models/auth/interface/service.interface';
@@ -8,21 +12,25 @@ import { UserRepository } from './user.repository';
 import { AuthCredentialsDto } from '../models/auth/dto/auth-credential.dto';
 import { IJwtPayload, IAccessToken } from '../models/auth/jwt';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
+import { IUserModel } from 'src/models/user/user.model';
 
 @Injectable()
-export class AuthService implements IAuthService {
-
+export class AuthService extends IAuthService {
   constructor(
     @InjectRepository(UserRepository)
     private userRepository: IUserRepository,
     private jwtService: JwtService,
-  ){}
+  ) {
+    super();
+  }
 
-  async signUp(request: AuthSignupDto):Promise<void> {
+  async signUp(request: AuthSignupDto): Promise<void> {
     const { username, mail, password } = request;
-    const userModel = new UserModel(username, mail, password);
+    const hashPassword = await this.hash(password);
+    const userModel = new UserModel(username, mail, hashPassword);
 
-    if(await this.userRepository.isExist(userModel)) {
+    if (await this.userRepository.isExist(userModel)) {
       throw new ConflictException('E-mail Already exists');
     }
 
@@ -33,16 +41,20 @@ export class AuthService implements IAuthService {
     const payload: IJwtPayload = { mail: request.mail };
     const user = await this.userRepository.getUser(payload);
 
-    if(!user) {
-      throw new NotFoundException(`User not found`);
-    }
-
-    if(!await user.validate(request.password)) {
+    if (!(await this.validate(request.password, user))) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     const accessToken = this.jwtService.sign(payload);
 
     return { accessToken };
+  }
+
+  async hash(password: string): Promise<string> {
+    return await bcrypt.hash(password, 8);
+  }
+
+  async validate(password: string, user: IUserModel): Promise<boolean> {
+    return await bcrypt.compare(password, user.password);
   }
 }

@@ -3,27 +3,24 @@ import { AuthSignupDto } from '../models/auth/dto/auth-signup.dto';
 import { IAuthService } from 'src/models/auth/interface/service.interface';
 import { AuthCredentialsDto } from '../models/auth/dto/auth-credential.dto';
 import { IAccessToken } from 'src/models/auth/jwt';
+import * as bcrypt from 'bcryptjs';
 
 @Controller('auth')
 export class AuthController {
-
   constructor(
     @Inject('IAuthService')
-    private authService: IAuthService
-  ){}
+    private authService: IAuthService,
+  ) {}
 
   @Post('signup')
-  signUp(
-    @Body(ValidationPipe) request: AuthSignupDto
-  ): Promise<void> {
+  signUp(@Body(ValidationPipe) request: AuthSignupDto): Promise<void> {
     return this.authService.signUp(request);
   }
 
   @Post('signin')
   signIp(
-    @Body(ValidationPipe) request: AuthCredentialsDto
+    @Body(ValidationPipe) request: AuthCredentialsDto,
   ): Promise<IAccessToken> {
     return this.authService.signIn(request);
   }
-
 }

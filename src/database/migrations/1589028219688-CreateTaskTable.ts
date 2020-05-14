@@ -59,16 +59,6 @@ export class CreateTaskTable1589028219688 implements MigrationInterface {
       }),
       true,
     );
-
-    // await queryRunner.createForeignKey(
-    //   'tasks',
-    //   new TableForeignKey({
-    //     columnNames: ['user_id'],
-    //     referencedColumnNames: ['id'],
-    //     referencedTableName: 'users',
-    //     onDelete: 'CASCADE',
-    //   }),
-    // );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

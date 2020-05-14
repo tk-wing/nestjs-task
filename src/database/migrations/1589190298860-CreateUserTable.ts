@@ -31,11 +31,6 @@ export class CreateUserTable1589190298860 implements MigrationInterface {
 						length: '191',
           },
           {
-            name: 'salt',
-						type: 'varchar',
-						length: '191',
-          },
-          {
             name: 'created_at',
             type: 'datetime',
 						default: 'CURRENT_TIMESTAMP',

@@ -8,8 +8,12 @@ import { IJwtPayload } from 'src/models/auth/jwt';
 @EntityRepository(User)
 export class UserRepository extends IUserRepository {
 
-  async getUser(request: IJwtPayload): Promise<User | undefined> {
+  async getUser(request: IJwtPayload): Promise<User> {
     const user = await this.findOne({ mail: request.mail});
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
     return user;
   }
@@ -25,7 +29,6 @@ export class UserRepository extends IUserRepository {
     user.username = userModel.username;
     user.mail = userModel.mail;
     user.password = userModel.password;
-    user.salt = userModel.salt;
 
     return await user.save();
   }

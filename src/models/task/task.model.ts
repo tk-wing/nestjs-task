@@ -5,6 +5,7 @@ export enum TaskStatus {
 }
 
 export interface ITaskModel {
+  readonly userId: number;
   readonly title: string;
   description: string;
   status: TaskStatus;
@@ -12,16 +13,19 @@ export interface ITaskModel {
 }
 
 export class TaskModel implements ITaskModel {
+  readonly userId: number;
   readonly title: string;
   description: string;
   status: TaskStatus;
   expiredAt ?: Date;
 
   constructor(
+    userId: number,
     title: string,
     description: string,
     expiredAt?: Date,
   ) {
+    this.userId = userId;
     this.title = title;
     this.description = description;
     this.status = TaskStatus.OPEN;

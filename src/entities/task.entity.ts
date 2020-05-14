@@ -1,10 +1,15 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Timestamp, BaseEntity, ValueTransformer} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, BaseEntity } from "typeorm";
 import { ITaskModel, TaskStatus } from '../models/task/task.model';
+import { type } from "os";
+import { User } from "./user.entity";
 
 @Entity('tasks')
 export class Task extends BaseEntity implements ITaskModel {
   @PrimaryGeneratedColumn()
   readonly id!: number;
+
+  @Column({ type: 'int', name: 'user_id', unsigned: true})
+  readonly userId!: number;
 
   @Column({ type: 'varchar', length: 191})
   readonly title!: string;
@@ -27,8 +32,13 @@ export class Task extends BaseEntity implements ITaskModel {
   @DeleteDateColumn({ type: 'datetime', name: 'deleted_at', nullable: true})
   readonly deletedAt!: Date;
 
-  constructor(title: string){
+  @ManyToOne(type => User, user => user.tasks)
+  @JoinColumn({ name: 'user_id'})
+  user!: User;
+
+  constructor(userId: number, title: string){
     super();
+    this.userId = userId;
     this.title = title;
   }
 

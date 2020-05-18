@@ -1,10 +1,8 @@
 import { Controller, Post, Body, ValidationPipe, Inject } from '@nestjs/common';
-import { AuthSignupDto } from '../models/auth/dto/auth-signup.dto';
-import { IAuthService } from 'src/models/auth/interface/service.interface';
-import { AuthCredentialsDto } from '../models/auth/dto/auth-credential.dto';
-import { IAccessToken } from 'src/models/auth/jwt';
-import * as bcrypt from 'bcryptjs';
-
+import { IAccessToken } from '@/models/auth/jwt';
+import { IAuthService } from '@/models/auth/interface/service.interface';
+import { AuthSignupDto } from '@/models/auth/dto/auth-signup.dto';
+import { AuthCredentialsDto } from '@/models/auth/dto/auth-credential.dto';
 @Controller('auth')
 export class AuthController {
   constructor(

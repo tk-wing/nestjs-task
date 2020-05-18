@@ -5,7 +5,7 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class AddUserIdColumnIntoUserTable1589436601764
+export class AddUserIdColumnIntoTaskTable1589436601764
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.addColumn(

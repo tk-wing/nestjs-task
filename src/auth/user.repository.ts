@@ -1,12 +1,12 @@
-import { IUserRepository } from '../models/user/interface/repository.interface';
-import { EntityRepository } from 'typeorm';
-import { User } from '../entities/user.entity';
-import { IUserModel } from 'src/models/user/user.model';
+import { EntityRepository, Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
-import { IJwtPayload } from 'src/models/auth/jwt';
+import { User } from '@/entities/user.entity';
+import { IUserRepository } from '@/models/user/interface/repository.interface';
+import { IJwtPayload } from '@/models/auth/jwt';
+import { IUserModel } from '@/models/user/user.model';
 
 @EntityRepository(User)
-export class UserRepository extends IUserRepository {
+export class UserRepository extends Repository<User> implements IUserRepository {
 
   async getUser(request: IJwtPayload): Promise<User> {
     const user = await this.findOne({ mail: request.mail});

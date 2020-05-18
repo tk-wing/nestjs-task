@@ -7,11 +7,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtConfig } from '../config/jwt-config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
+import { ListRepository } from '@/list/list.repository';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserRepository]),
+    TypeOrmModule.forFeature([UserRepository, ListRepository]),
     JwtModule.registerAsync({
       useClass: JwtConfig
     }),

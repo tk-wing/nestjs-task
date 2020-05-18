@@ -23,18 +23,23 @@ export class CreateTaskTable1589028219688 implements MigrationInterface {
           {
             name: 'description',
             type: 'text',
+            isNullable: true,
           },
           {
             name: 'status',
             type: 'enum',
             enum: [
               TaskStatus.OPEN,
-              TaskStatus.IN_PROGRESS,
               TaskStatus.DONE,
             ],
           },
           {
             name: 'expired_at',
+            type: 'datetime',
+            isNullable: true,
+          },
+          {
+            name: 'done_at',
             type: 'datetime',
             isNullable: true,
           },

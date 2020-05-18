@@ -1,9 +1,10 @@
 import { BaseEntity, PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, Unique, OneToMany } from 'typeorm';
-import { IUserModel } from 'src/models/user/user.model';
 import { Task } from './task.entity';
+import { List } from './list.entity';
+import { IUserEntity } from '@/models/user/user.model';
 
 @Entity('users')
-export class User extends BaseEntity implements IUserModel {
+export class User extends BaseEntity implements IUserEntity {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
@@ -24,4 +25,7 @@ export class User extends BaseEntity implements IUserModel {
 
   @OneToMany(type => Task, task => task.user)
   tasks!: Task[];
+
+  @OneToMany(type => List, list => list.user)
+  lists!: List[];
 }

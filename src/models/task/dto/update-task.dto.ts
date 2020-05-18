@@ -1,5 +1,5 @@
-import { IsNotEmpty, IsOptional, IsEnum, IsString } from "class-validator";
-import { TaskStatus } from '../task.model';
+import { IsNotEmpty, IsOptional, IsString, IsDate, IsInt } from "class-validator";
+import { Type, Transform } from "class-transformer";
 
 export class UpdateTaskDto {
   @IsOptional()
@@ -8,12 +8,13 @@ export class UpdateTaskDto {
   description!: string;
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsEnum(TaskStatus)
-  status!: TaskStatus;
+  @Transform(listId => parseInt(listId))
+  @IsInt()
+  listId!: number
 
   @IsOptional()
-  @IsString()
+  @Type( () => Date)
+  @IsDate()
   @IsNotEmpty()
   expiredAt!: Date;
 }

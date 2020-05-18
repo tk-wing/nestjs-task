@@ -1,15 +1,16 @@
-import { Task } from 'src/entities/task.entity';
-import { ITaskModel } from '../task.model';
-import { Repository } from 'typeorm';
-import { User } from '../../../entities/user.entity';
 import { IPaginationOptions ,Pagination } from 'nestjs-typeorm-paginate';
+import { ITaskModel } from '../task.model';
+import { FilterTaskDto } from '@/models/task/dto/filter-task.dto';
+import { IUserEntity } from '@/models/user/user.model';
+import { ITaskEntity } from '@/models/task/task.model';
 
 
-export abstract class ITaskRepository extends Repository<Task> {
-  abstract getTask(id: number, user: User): Promise<Task>;
-  abstract getTasks(paginationOptions: IPaginationOptions, user: User): Promise<Pagination<Task>>;
-  abstract createTask(taskModel: ITaskModel): Promise<Task>;
-  abstract deleteTask(id: number, user: User): Promise<void>;
+export interface ITaskRepository {
+  getTask(id: number, user: IUserEntity): Promise<ITaskEntity>;
+  getTasks(paginationOptions: IPaginationOptions, filterTaskDto :FilterTaskDto, user: IUserEntity): Promise<Pagination<ITaskEntity>>;
+  createTask(taskModel: ITaskModel): Promise<ITaskEntity>;
+  deleteTask(id: number, user: IUserEntity): Promise<void>;
+  updateTask(task: ITaskEntity): Promise<ITaskEntity>;
 }
 
 

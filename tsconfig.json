@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "strict": true,
+    "importHelpers": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -10,7 +11,10 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
   },
   "exclude": ["node_modules", "dist"]
 }

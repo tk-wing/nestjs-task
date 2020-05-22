@@ -22,9 +22,9 @@ export class ListRepository extends Repository<List>
     return list !== undefined;
   }
 
-  async countList(user: User): Promise<number> {
+  async countList(condition: { userId: number }): Promise<number> {
     return await this.createQueryBuilder('lists')
-      .where('user_id =:userId', { userId: user.id })
+      .where('user_id =:userId', { userId: condition.userId })
       .getCount();
   }
 

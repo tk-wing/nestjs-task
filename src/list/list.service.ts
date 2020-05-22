@@ -4,7 +4,7 @@ import { IListAppService } from '@/models/list/interface/service.interface';
 import { IListRepository } from '@/models/list/interface/repository.interface';
 import { List } from '@/entities/list.entity';
 import { CreateListDto } from '@/models/list/dto/create-list.dto';
-import { IListEntity, ListModel } from '@/models/list/list.model';
+import { IListEntity, ListModel, ListService } from '@/models/list/list.model';
 import { User } from '@/entities/user.entity';
 import { UpdateListDto } from '@/models/list/dto/update-list.dto';
 import { PaginationDto } from '@/models/pagination.dto';
@@ -15,7 +15,8 @@ export class ListAppService extends IListAppService {
 
   constructor(
     @InjectRepository(List)
-    private listRepository: IListRepository
+    private listRepository: IListRepository,
+    private listService: ListService,
   ){
     super();
   }
@@ -47,7 +48,7 @@ export class ListAppService extends IListAppService {
     const list = await this.listRepository.getList(id, user);
     list.name = name;
 
-    if(await this.listRepository.isExist(list)) {
+    if(await this.listService.isExist(list)) {
       throw new ConflictException('List name Already exists');
     }
 
@@ -55,9 +56,9 @@ export class ListAppService extends IListAppService {
   }
 
   async deleteList(id: number, user: User): Promise<void> {
-    const listCount = await this.listRepository.countList(user);
+    const list = await this.listRepository.getList(id ,user);
 
-    if(listCount <= 1) {
+    if(! await this.listService.isDelete(list)) {
       throw new BadRequestException('List needs one at least');
     }
 

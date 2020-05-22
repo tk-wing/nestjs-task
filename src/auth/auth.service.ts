@@ -10,7 +10,7 @@ import { IAuthService } from '@/models/auth/interface/service.interface';
 import { UserRepository } from './user.repository';
 import { IUserRepository } from '@/models/user/interface/repository.interface';
 import { AuthSignupDto } from '@/models/auth/dto/auth-signup.dto';
-import { UserModel, IUserModel } from '@/models/user/user.model';
+import { UserModel, IUserModel, UserService } from '@/models/user/user.model';
 import { AuthCredentialsDto } from '@/models/auth/dto/auth-credential.dto';
 import { IAccessToken, IJwtPayload } from '@/models/auth/jwt';
 import { ListRepository } from '../list/list.repository';
@@ -25,6 +25,7 @@ export class AuthService extends IAuthService {
     @InjectRepository(ListRepository)
     private listRepository: IListRepository,
     private jwtService: JwtService,
+    private userService: UserService,
   ) {
     super();
   }
@@ -38,7 +39,7 @@ export class AuthService extends IAuthService {
       password: hashPassword,
     });
 
-    if (await this.userRepository.isExist(userModel)) {
+    if (await this.userService.isExist(userModel)) {
       throw new ConflictException('E-mail Already exists');
     }
 
@@ -46,7 +47,7 @@ export class AuthService extends IAuthService {
 
     const listModel = new ListModel({
       userId: user.id,
-      name: 'My Task'
+      name: 'My Task',
     });
 
     await this.listRepository.createList(listModel);

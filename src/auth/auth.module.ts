@@ -8,6 +8,8 @@ import { JwtConfig } from '../config/jwt-config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { ListRepository } from '@/list/list.repository';
+import { IUserRepository } from '@/models/user/interface/repository.interface';
+import { UserService } from '@/models/user/user.model';
 
 
 @Module({
@@ -27,6 +29,11 @@ import { ListRepository } from '@/list/list.repository';
     {
       provide: 'IAuthService',
       useClass: AuthService
+    },
+    {
+      provide: 'UserService',
+      useFactory: (userRepository: IUserRepository) => new UserService(userRepository),
+      inject: [UserRepository]
     },
     JwtStrategy,
   ],

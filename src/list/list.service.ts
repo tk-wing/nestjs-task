@@ -3,12 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IListAppService } from '@/models/list/interface/service.interface';
 import { IListRepository } from '@/models/list/interface/repository.interface';
 import { List } from '@/entities/list.entity';
-import { CreateListDto } from '@/models/list/dto/create-list.dto';
 import { IListEntity, ListModel, ListService } from '@/models/list/list.model';
 import { User } from '@/entities/user.entity';
-import { UpdateListDto } from '@/models/list/dto/update-list.dto';
-import { PaginationDto } from '@/models/pagination.dto';
+import { PaginationDto } from '@/provider/pagination/pagination.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { IUpdateListDto, ICreateListDto } from '@/models/list/dto/list.dto';
+import { IPaginationResponse, IPaginationOption } from '@/models/pagination';
 
 @Injectable()
 export class ListAppService extends IListAppService {
@@ -25,11 +25,11 @@ export class ListAppService extends IListAppService {
     return await this.listRepository.getList(id, user);
   }
 
-  async getLists(paginationOptions: PaginationDto, user: User): Promise<Pagination<IListEntity>> {
+  async getLists(paginationOptions: IPaginationOption, user: User): Promise<IPaginationResponse<IListEntity>> {
     return await this.listRepository.getLists(paginationOptions, user);
   }
 
-  async createList(request: CreateListDto, user: User): Promise<IListEntity> {
+  async createList(request: ICreateListDto, user: User): Promise<IListEntity> {
     const { name } = request;
     const listModel = new ListModel({
       userId: user.id,
@@ -43,7 +43,7 @@ export class ListAppService extends IListAppService {
     return await this.listRepository.createList(listModel);
   }
 
-  async updateList(id: number, request: UpdateListDto, user: User): Promise<IListEntity> {
+  async updateList(id: number, request: IUpdateListDto, user: User): Promise<IListEntity> {
     const { name } = request;
     const list = await this.listRepository.getList(id, user);
     list.name = name;

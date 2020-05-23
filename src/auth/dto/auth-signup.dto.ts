@@ -1,6 +1,7 @@
 import { IsString, MinLength, MaxLength, Matches, IsEmail } from 'class-validator';
+import { IAuthSignupDto } from '@/models/auth/dto/auth.dto';
 
-export class AuthSignupDto {
+export class AuthSignupDto implements IAuthSignupDto {
   @IsString()
   @MinLength(4)
   @MaxLength(20)

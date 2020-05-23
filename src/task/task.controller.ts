@@ -15,19 +15,19 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ITaskAppService } from '@/models/task/interface/service.interface';
-import { PaginationDto } from '@/models/pagination.dto';
+import { PaginationDto } from '@/provider/pagination/pagination.dto';
 import { GetUser } from '@/decorator/get-user.decorator';
 import { User } from '@/entities/user.entity';
-import { CreateTaskDto } from '@/models/task/dto/create-task.dto';
-import { UpdateTaskDto } from '@/models/task/dto/update-task.dto';
-import { UpdateTaskStatusDto } from '@/models/task/dto/update-task-status.dto';
-import { FilterTaskDto } from '@/models/task/dto/filter-task.dto';
+import { CreateTaskDto } from '@/task/dto/create-task.dto';
+import { UpdateTaskDto } from '@/task/dto/update-task.dto';
+import { UpdateTaskStatusDto } from '@/task/dto/update-task-status.dto';
+import { FilterTaskDto } from '@/task/dto/filter-task.dto';
 
 @Controller('task')
 @UseGuards(AuthGuard())
 export class TaskController {
   constructor(
-    @Inject('ITaskAppService')
+    @Inject(ITaskAppService)
     private taskAppService: ITaskAppService,
   ) {}
 

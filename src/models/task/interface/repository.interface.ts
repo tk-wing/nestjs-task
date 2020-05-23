@@ -1,6 +1,6 @@
 import { IPaginationOptions ,Pagination } from 'nestjs-typeorm-paginate';
 import { ITaskModel } from '../task.model';
-import { FilterTaskDto } from '@/models/task/dto/filter-task.dto';
+import { FilterTaskDto } from '@/task/dto/filter-task.dto';
 import { IUserEntity } from '@/models/user/user.model';
 import { ITaskEntity } from '@/models/task/task.model';
 

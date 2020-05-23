@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,6 +10,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { ListRepository } from '@/list/list.repository';
 import { IUserRepository } from '@/models/user/interface/repository.interface';
 import { UserService } from '@/models/user/user.model';
+import { ListModule } from '@/list/list.module';
+import { IAuthService } from '@/models/auth/interface/service.interface';
 
 
 @Module({
@@ -22,16 +24,17 @@ import { UserService } from '@/models/user/user.model';
       useFactory: () => ({
         defaultStrategy: 'jwt'
       })
-    })
+    }),
+    forwardRef(() =>ListModule),
   ],
   controllers: [AuthController],
   providers: [
     {
-      provide: 'IAuthService',
-      useClass: AuthService
+      provide: IAuthService,
+      useClass: AuthService,
     },
     {
-      provide: 'UserService',
+      provide: UserService,
       useFactory: (userRepository: IUserRepository) => new UserService(userRepository),
       inject: [UserRepository]
     },

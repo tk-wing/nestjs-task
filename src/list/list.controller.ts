@@ -1,18 +1,18 @@
 import { Controller, UseGuards, Post, ValidationPipe, UsePipes, Body, Inject, Get, Query, Param, ParseIntPipe, Patch, Delete } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '@/decorator/get-user.decorator';
-import { CreateListDto } from '@/models/list/dto/create-list.dto';
+import { CreateListDto } from '@/list/dto/create-list.dto';
 import { User } from '@/entities/user.entity';
 import { IListAppService } from '@/models/list/interface/service.interface';
-import { UpdateListDto } from '@/models/list/dto/update-list.dto';
-import { PaginationDto } from '@/models/pagination.dto';
+import { UpdateListDto } from '@/list/dto/update-list.dto';
+import { PaginationDto } from '@/provider/pagination/pagination.dto';
 
 @Controller('list')
 @UseGuards(AuthGuard())
 export class ListController {
 
   constructor(
-    @Inject('IListAppService')
+    @Inject(IListAppService)
     private listAppService: IListAppService
   ){}
 

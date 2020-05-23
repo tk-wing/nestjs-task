@@ -1,7 +1,8 @@
 import { IsNotEmpty, IsOptional, IsString, IsDate, IsInt } from "class-validator";
 import { Type, Transform } from "class-transformer";
+import { IUpdateTaskDto } from '@/models/task/dto/task.dto';
 
-export class UpdateTaskDto {
+export class UpdateTaskDto implements IUpdateTaskDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()

@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskRepository } from './task.repository';
 import { AuthModule } from '@/auth/auth.module';
 import { ListRepository } from '@/list/list.repository';
+import { ITaskAppService } from '@/models/task/interface/service.interface';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { ListRepository } from '@/list/list.repository';
   controllers: [TaskController],
   providers: [
     {
-      provide: 'ITaskAppService',
+      provide: ITaskAppService,
       useClass: TaskAppService
     }
   ],

@@ -5,7 +5,7 @@ import { Task } from '@/entities/task.entity';
 import { ITaskRepository } from '@/models/task/interface/repository.interface';
 import { User } from '@/entities/user.entity';
 import { ITaskModel } from '@/models/task/task.model';
-import { FilterTaskDto } from '@/models/task/dto/filter-task.dto';
+import { FilterTaskDto } from '@/task/dto/filter-task.dto';
 
 @EntityRepository(Task)
 export class TaskRepository extends Repository<Task> implements ITaskRepository {

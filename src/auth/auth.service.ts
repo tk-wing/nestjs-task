@@ -9,28 +9,24 @@ import * as bcrypt from 'bcryptjs';
 import { IAuthService } from '@/models/auth/interface/service.interface';
 import { UserRepository } from './user.repository';
 import { IUserRepository } from '@/models/user/interface/repository.interface';
-import { AuthSignupDto } from '@/models/auth/dto/auth-signup.dto';
 import { UserModel, IUserModel, UserService } from '@/models/user/user.model';
-import { AuthCredentialsDto } from '@/models/auth/dto/auth-credential.dto';
 import { IAccessToken, IJwtPayload } from '@/models/auth/jwt';
-import { ListRepository } from '../list/list.repository';
-import { IListRepository } from '@/models/list/interface/repository.interface';
-import { ListModel } from '@/models/list/list.model';
+import { IListAppService } from '@/models/list/interface/service.interface';
+import { IAuthSignupDto, IAuthCredentialsDto } from '@/models/auth/dto/auth.dto';
 
 @Injectable()
 export class AuthService extends IAuthService {
   constructor(
     @InjectRepository(UserRepository)
     private userRepository: IUserRepository,
-    @InjectRepository(ListRepository)
-    private listRepository: IListRepository,
+    private listAppService: IListAppService,
     private jwtService: JwtService,
     private userService: UserService,
   ) {
     super();
   }
 
-  async signUp(request: AuthSignupDto): Promise<void> {
+  async signUp(request: IAuthSignupDto): Promise<void> {
     const { username, mail, password } = request;
     const hashPassword = await this.hash(password);
     const userModel = new UserModel({
@@ -45,15 +41,10 @@ export class AuthService extends IAuthService {
 
     const user = await this.userRepository.createUser(userModel);
 
-    const listModel = new ListModel({
-      userId: user.id,
-      name: 'My Task',
-    });
-
-    await this.listRepository.createList(listModel);
+    await this.listAppService.createList({ name: 'My Task'}, user);
   }
 
-  async signIn(request: AuthCredentialsDto): Promise<IAccessToken> {
+  async signIn(request: IAuthCredentialsDto): Promise<IAccessToken> {
     const payload: IJwtPayload = { mail: request.mail };
     const user = await this.userRepository.getUser(payload);
 

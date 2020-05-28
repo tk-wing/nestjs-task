@@ -10,7 +10,7 @@ import { IUserEntity } from '@/models/user/user.model';
 import { List } from '@/entities/list.entity';
 import { IListRepository } from '@/models/list/interface/repository.interface';
 import { ICreateTaskDto, IUpdateTaskDto, IUpdateTaskStatusDto, IFilterTaskDto } from '@/models/task/dto/task.dto';
-import { IPaginationResponse, IPaginationOption } from '@/models/pagination';
+import { IPaginationResponse, IPaginationOption } from '@/models/types/pagination';
 
 @Injectable()
 export class TaskAppService extends ITaskAppService  {

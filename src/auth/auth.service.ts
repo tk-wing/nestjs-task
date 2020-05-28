@@ -13,13 +13,13 @@ import { UserModel, IUserModel, UserService } from '@/models/user/user.model';
 import { IAccessToken, IJwtPayload } from '@/models/auth/jwt';
 import { IListAppService } from '@/models/list/interface/service.interface';
 import { IAuthSignupDto, IAuthCredentialsDto } from '@/models/auth/dto/auth.dto';
+import * as request from 'supertest';
 
 @Injectable()
 export class AuthService extends IAuthService {
   constructor(
     @InjectRepository(UserRepository)
     private userRepository: IUserRepository,
-    private listAppService: IListAppService,
     private jwtService: JwtService,
     private userService: UserService,
   ) {
@@ -35,13 +35,14 @@ export class AuthService extends IAuthService {
       password: hashPassword,
     });
 
-    if (await this.userService.isExist(userModel)) {
-      throw new ConflictException('E-mail Already exists');
+    const result = await this.userService.isDuplicate(userModel);
+
+    if(result instanceof Error) {
+      throw new ConflictException(result.message);
     }
 
-    const user = await this.userRepository.createUser(userModel);
+    await this.userRepository.createUser(userModel);
 
-    await this.listAppService.createList({ name: 'My Task'}, user);
   }
 
   async signIn(request: IAuthCredentialsDto): Promise<IAccessToken> {

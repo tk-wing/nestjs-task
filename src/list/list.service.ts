@@ -5,10 +5,8 @@ import { IListRepository } from '@/models/list/interface/repository.interface';
 import { List } from '@/entities/list.entity';
 import { IListEntity, ListModel, ListService } from '@/models/list/list.model';
 import { User } from '@/entities/user.entity';
-import { PaginationDto } from '@/provider/pagination/pagination.dto';
-import { Pagination } from 'nestjs-typeorm-paginate';
 import { IUpdateListDto, ICreateListDto } from '@/models/list/dto/list.dto';
-import { IPaginationResponse, IPaginationOption } from '@/models/pagination';
+import { IPaginationResponse, IPaginationOption } from '@/models/types/pagination';
 
 @Injectable()
 export class ListAppService extends IListAppService {
@@ -36,8 +34,11 @@ export class ListAppService extends IListAppService {
       name: name,
     });
 
-    if(await this.listRepository.isExist(listModel)) {
-      throw new ConflictException('List name Already exists');
+    const result = await this.listService.isDuplicate(listModel);
+
+    if(result instanceof Error) {
+      const message = result.message;
+      throw new ConflictException(message);
     }
 
     return await this.listRepository.createList(listModel);
@@ -48,8 +49,11 @@ export class ListAppService extends IListAppService {
     const list = await this.listRepository.getList(id, user);
     list.name = name;
 
-    if(await this.listService.isExist(list)) {
-      throw new ConflictException('List name Already exists');
+    const result = await this.listService.isDuplicate(list);
+
+    if(result instanceof Error) {
+      const message = result.message;
+      throw new ConflictException(message);
     }
 
     return await this.listRepository.updateList(list);
@@ -58,8 +62,10 @@ export class ListAppService extends IListAppService {
   async deleteList(id: number, user: User): Promise<void> {
     const list = await this.listRepository.getList(id ,user);
 
-    if(! await this.listService.isDelete(list)) {
-      throw new BadRequestException('List needs one at least');
+    const result = await this.listService.isDelete(list);
+
+    if(result instanceof Error) {
+      throw new BadRequestException(result.message);
     }
 
     await this.listRepository.deleteList(id, user);

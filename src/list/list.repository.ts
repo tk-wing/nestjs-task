@@ -4,6 +4,7 @@ import { List } from '@/entities/list.entity';
 import { IListRepository } from '@/models/list/interface/repository.interface';
 import { User } from '@/entities/user.entity';
 import { NotFoundException } from '@nestjs/common';
+import { IExistCondition } from '../models/types/condition';
 import {
   IPaginationOptions,
   Pagination,
@@ -12,19 +13,17 @@ import {
 
 @EntityRepository(List)
 export class ListRepository extends Repository<List>
+
   implements IListRepository {
-  async isExist(listModel: IListModel): Promise<boolean> {
-    const list = await this.findOne({
-      userId: listModel.userId,
-      name: listModel.name,
-    });
+  async isExist(condition: Partial<IListModel>): Promise<boolean> {
+    const list = await this.findOne(condition);
 
     return list !== undefined;
   }
 
-  async countList(condition: { userId: number }): Promise<number> {
+  async countListByUserId(userId: number): Promise<number> {
     return await this.createQueryBuilder('lists')
-      .where('user_id =:userId', { userId: condition.userId })
+      .where('user_id =:userId', { userId })
       .getCount();
   }
 

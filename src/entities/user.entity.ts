@@ -8,7 +8,7 @@ export class User extends BaseEntity implements IUserEntity {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
-  @Column({ type: 'varchar', length: 191})
+  @Column({ type: 'varchar', length: 191, unique: true})
   username!: string;
 
   @Column({ type: 'varchar', length: 191, unique: true})

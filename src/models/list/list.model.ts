@@ -1,6 +1,5 @@
-import { ListRepository } from '../../list/list.repository';
 import { IListRepository } from '@/models/list/interface/repository.interface';
-import { AdvancedConsoleLogger } from 'typeorm';
+import * as request from 'supertest';
 export interface IListModel {
   readonly userId: number;
   name: string;
@@ -23,13 +22,26 @@ export class ListModel implements IListModel {
 export class ListService {
   constructor(private listRepository: IListRepository) {}
 
-  async isExist(listModel: ListModel): Promise<boolean> {
-    const condition = { userId: listModel.userId, name: listModel.name };
-    return await this.listRepository.isExist(condition);
+  async isDuplicate(listModel: ListModel): Promise<boolean | Error> {
+    const result = await this.listRepository.isExist({
+      userId: listModel.userId,
+      name: listModel.name,
+    });
+
+    if (!result) {
+      return new Error('List name Already exists');
+    }
+
+    return result;
   }
 
-  async isDelete(listModel: ListModel): Promise<boolean> {
-    const condition = { userId: listModel.userId };
-    return (await this.listRepository.countList(condition)) > 1;
+  async isDelete(listModel: ListModel): Promise<boolean | Error> {
+    const result = await this.listRepository.countListByUserId(listModel.userId);
+
+    if(result > 1) {
+      return new Error('List needs one at least');
+    }
+
+    return true;
   }
 }

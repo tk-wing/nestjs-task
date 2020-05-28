@@ -18,8 +18,8 @@ export class UserRepository extends Repository<User> implements IUserRepository 
     return user;
   }
 
-  async isExist(userModel: IUserModel): Promise<boolean> {
-    const result = await this.findOne({ mail: userModel.mail});
+  async isExist(condition: Partial<IUserModel>): Promise<boolean> {
+    const result = await this.findOne(condition);
 
     return result !== undefined;
   }

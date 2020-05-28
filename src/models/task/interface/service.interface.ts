@@ -4,7 +4,7 @@ import { CreateTaskDto } from '@/task/dto/create-task.dto';
 import { FilterTaskDto } from '@/task/dto/filter-task.dto';
 import { UpdateTaskDto } from '@/task/dto/update-task.dto';
 import { UpdateTaskStatusDto } from '@/task/dto/update-task-status.dto';
-import { IPaginationOption, IPaginationResponse } from '@/models/pagination';
+import { IPaginationOption, IPaginationResponse } from '@/models/types/pagination';
 
 export abstract class ITaskAppService {
   abstract getTask(id: number, user:IUserEntity): Promise<ITaskEntity>;

@@ -1,7 +1,7 @@
 import { IsOptional, IsNumber } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { IPaginationOptions } from 'nestjs-typeorm-paginate';
-import { IPaginationOption } from '@/models/pagination';
+import { IPaginationOption } from '@/models/types/pagination';
 
 export class PaginationDto implements IPaginationOption, IPaginationOptions {
   @IsOptional()

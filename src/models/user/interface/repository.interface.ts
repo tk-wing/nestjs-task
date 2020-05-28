@@ -4,7 +4,7 @@ import { IJwtPayload } from '../../auth/jwt';
 
 
 export interface IUserRepository {
-  isExist(condition: { mail: string }): Promise<boolean>;
+  isExist(condition: Partial<IUserModel>): Promise<boolean>;
   getUser(request: IJwtPayload): Promise<User>;
   createUser(userModel: IUserModel): Promise<User>;
   // abstract deleteUser(id: number): Promise<void>;

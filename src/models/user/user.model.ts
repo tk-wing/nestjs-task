@@ -24,8 +24,20 @@ export class UserModel implements IUserModel {
 
 export class UserService {
   constructor(private userRepository: IUserRepository) {}
-  async isExist(userModel: UserModel): Promise<boolean> {
-    const condition = { mail: userModel.mail };
-    return await this.userRepository.isExist(condition);
+  async isDuplicate(userModel: UserModel): Promise<boolean | Error> {
+
+    let result = await this.userRepository.isExist({ username: userModel.username});
+
+    if(!result) {
+      return new Error('User Name Already exist');
+    }
+
+    result = await this.userRepository.isExist({ mail: userModel.mail});
+
+    if(!result) {
+      return new Error('E-mail Already exist');
+    }
+
+    return result;
   }
 }

@@ -1,11 +1,11 @@
-import { EntityRepository, Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
-import {paginate, Pagination, IPaginationOptions} from 'nestjs-typeorm-paginate';
 import { Task } from '@/entities/task.entity';
-import { ITaskRepository } from '@/models/task/interface/repository.interface';
 import { User } from '@/entities/user.entity';
-import { ITaskModel } from '@/models/task/task.model';
-import { FilterTaskDto } from '@/task/dto/filter-task.dto';
+import { ITaskRepository } from '@/models/task/interface/repository.interface';
+import { ITaskModel, ITaskEntity } from '@/models/task/task.model';
+import { NotFoundException } from '@nestjs/common';
+import { IPaginationOptions, Pagination, paginate } from 'nestjs-typeorm-paginate';
+import { EntityRepository, Repository } from 'typeorm';
+
 
 @EntityRepository(Task)
 export class TaskRepository extends Repository<Task> implements ITaskRepository {
@@ -19,13 +19,13 @@ export class TaskRepository extends Repository<Task> implements ITaskRepository 
     return task;
   }
 
-  async getTasks(paginationOptions: IPaginationOptions, filterTaskDto: FilterTaskDto, user: User): Promise<Pagination<Task>> {
+  async getTasks(paginationOptions: IPaginationOptions, condition: Partial<ITaskEntity>, user: User): Promise<Pagination<Task>> {
     const builder = this.createQueryBuilder('users');
     builder.where('user_id =:userId', { userId: user.id})
     .orderBy('created_at', 'DESC');
 
-    if(filterTaskDto.listId !== undefined) {
-      builder.andWhere('list_id =:listId', { listId: filterTaskDto.listId});;
+    if(condition.listId !== undefined) {
+      builder.andWhere('list_id =:listId', { listId: condition.listId});;
     }
 
     return await paginate<Task>(builder, paginationOptions);

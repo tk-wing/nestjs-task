@@ -1,8 +1,8 @@
-import { Controller, Post, Body, ValidationPipe, Inject } from '@nestjs/common';
-import { IAccessToken } from '@/models/auth/jwt';
 import { IAuthService } from '@/models/auth/interface/service.interface';
-import { AuthSignupDto } from './dto/auth-signup.dto';
+import { IAccessToken } from '@/models/auth/jwt';
+import { Body, Controller, Inject, Post, ValidationPipe } from '@nestjs/common';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
+import { AuthSignupDto } from './dto/auth-signup.dto';
 @Controller('auth')
 export class AuthController {
   constructor(

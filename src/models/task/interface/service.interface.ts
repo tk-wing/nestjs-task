@@ -1,10 +1,10 @@
+import { IPaginationOption, IPaginationResponse } from '@/models/types/pagination';
 import { IUserEntity } from '@/models/user/user.model';
-import { ITaskEntity } from '../task.model';
 import { CreateTaskDto } from '@/task/dto/create-task.dto';
 import { FilterTaskDto } from '@/task/dto/filter-task.dto';
-import { UpdateTaskDto } from '@/task/dto/update-task.dto';
 import { UpdateTaskStatusDto } from '@/task/dto/update-task-status.dto';
-import { IPaginationOption, IPaginationResponse } from '@/models/types/pagination';
+import { UpdateTaskDto } from '@/task/dto/update-task.dto';
+import { ITaskEntity } from '../task.model';
 
 export abstract class ITaskAppService {
   abstract getTask(id: number, user:IUserEntity): Promise<ITaskEntity>;

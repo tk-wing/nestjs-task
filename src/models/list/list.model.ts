@@ -1,5 +1,4 @@
 import { IListRepository } from '@/models/list/interface/repository.interface';
-import * as request from 'supertest';
 export interface IListModel {
   readonly userId: number;
   name: string;

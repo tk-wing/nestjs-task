@@ -1,19 +1,17 @@
+import { IAuthCredentialsDto, IAuthSignupDto } from '@/models/auth/dto/auth.dto';
+import { IAuthService } from '@/models/auth/interface/service.interface';
+import { IAccessToken, IJwtPayload } from '@/models/auth/jwt';
+import { IUserRepository } from '@/models/user/interface/repository.interface';
+import { IUserEntity, UserModel, UserService } from '@/models/user/user.model';
 import {
-  Injectable,
   ConflictException,
+  Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
-import { IAuthService } from '@/models/auth/interface/service.interface';
 import { UserRepository } from './user.repository';
-import { IUserRepository } from '@/models/user/interface/repository.interface';
-import { UserModel, IUserModel, UserService } from '@/models/user/user.model';
-import { IAccessToken, IJwtPayload } from '@/models/auth/jwt';
-import { IListAppService } from '@/models/list/interface/service.interface';
-import { IAuthSignupDto, IAuthCredentialsDto } from '@/models/auth/dto/auth.dto';
-import * as request from 'supertest';
 
 @Injectable()
 export class AuthService extends IAuthService {
@@ -62,7 +60,7 @@ export class AuthService extends IAuthService {
     return await bcrypt.hash(password, 8);
   }
 
-  async validate(password: string, user: IUserModel): Promise<boolean> {
+  async validate(password: string, user: IUserEntity): Promise<boolean> {
     return await bcrypt.compare(password, user.password);
   }
 }

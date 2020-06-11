@@ -1,16 +1,14 @@
+import { List } from '@/entities/list.entity';
+import { Task } from '@/entities/task.entity';
+import { IListRepository } from '@/models/list/interface/repository.interface';
+import { ICreateTaskDto, IFilterTaskDto, IUpdateTaskDto, IUpdateTaskStatusDto } from '@/models/task/dto/task.dto';
+import { ITaskRepository } from '@/models/task/interface/repository.interface';
+import { ITaskAppService } from '@/models/task/interface/service.interface';
+import { ITaskEntity, TaskModel, TaskStatus } from '@/models/task/task.model';
+import { IPaginationOption, IPaginationResponse } from '@/models/types/pagination';
+import { IUserEntity } from '@/models/user/user.model';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pagination } from 'nestjs-typeorm-paginate';
-import { TaskStatus, TaskModel, ITaskEntity } from '@/models/task/task.model';
-import { PaginationDto } from '@/provider/pagination/pagination.dto';
-import { ITaskAppService } from '@/models/task/interface/service.interface';
-import { Task } from '@/entities/task.entity';
-import { ITaskRepository } from '@/models/task/interface/repository.interface';
-import { IUserEntity } from '@/models/user/user.model';
-import { List } from '@/entities/list.entity';
-import { IListRepository } from '@/models/list/interface/repository.interface';
-import { ICreateTaskDto, IUpdateTaskDto, IUpdateTaskStatusDto, IFilterTaskDto } from '@/models/task/dto/task.dto';
-import { IPaginationResponse, IPaginationOption } from '@/models/types/pagination';
 
 @Injectable()
 export class TaskAppService extends ITaskAppService  {

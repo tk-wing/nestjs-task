@@ -1,6 +1,6 @@
-import { IsNotEmpty, IsOptional, IsDate, IsInt } from "class-validator";
-import { Type, Transform } from 'class-transformer';
 import { ICreateTaskDto } from '@/models/task/dto/task.dto';
+import { Transform, Type } from 'class-transformer';
+import { IsDate, IsInt, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateTaskDto implements ICreateTaskDto {
   @IsNotEmpty()

@@ -1,4 +1,3 @@
-import { IListModel } from '@/models/list/list.model';
 export enum TaskStatus {
   OPEN = 'OPEN',
   // IN_PROGRESS = 'IN_PROGRESS',

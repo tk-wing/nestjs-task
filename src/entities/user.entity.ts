@@ -1,7 +1,7 @@
-import { BaseEntity, PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, Unique, OneToMany } from 'typeorm';
-import { Task } from './task.entity';
-import { List } from './list.entity';
 import { IUserEntity } from '@/models/user/user.model';
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { List } from './list.entity';
+import { Task } from './task.entity';
 
 @Entity('users')
 export class User extends BaseEntity implements IUserEntity {
@@ -23,9 +23,9 @@ export class User extends BaseEntity implements IUserEntity {
   @UpdateDateColumn({ type: 'datetime', name: 'updated_at', nullable: true})
   readonly updatedAt!: Date;
 
-  @OneToMany(type => Task, task => task.user)
+  @OneToMany(() => Task, task => task.user)
   tasks!: Task[];
 
-  @OneToMany(type => List, list => list.user)
+  @OneToMany(() => List, list => list.user)
   lists!: List[];
 }

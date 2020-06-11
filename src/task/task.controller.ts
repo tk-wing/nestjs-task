@@ -1,27 +1,27 @@
-import {
-  Controller,
-  Post,
-  Inject,
-  Body,
-  Delete,
-  Param,
-  ParseIntPipe,
-  Get,
-  Patch,
-  UsePipes,
-  ValidationPipe,
-  UseGuards,
-  Query,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { ITaskAppService } from '@/models/task/interface/service.interface';
-import { PaginationDto } from '@/provider/pagination/pagination.dto';
 import { GetUser } from '@/decorator/get-user.decorator';
 import { User } from '@/entities/user.entity';
+import { ITaskAppService } from '@/models/task/interface/service.interface';
+import { PaginationDto } from '@/provider/pagination/pagination.dto';
 import { CreateTaskDto } from '@/task/dto/create-task.dto';
-import { UpdateTaskDto } from '@/task/dto/update-task.dto';
-import { UpdateTaskStatusDto } from '@/task/dto/update-task-status.dto';
 import { FilterTaskDto } from '@/task/dto/filter-task.dto';
+import { UpdateTaskStatusDto } from '@/task/dto/update-task-status.dto';
+import { UpdateTaskDto } from '@/task/dto/update-task.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('task')
 @UseGuards(AuthGuard())

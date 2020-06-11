@@ -1,6 +1,6 @@
-import { IListModel, IListEntity } from '@/models/list/list.model';
-import { IUserEntity } from '@/models/user/user.model';
+import { IListEntity, IListModel } from '@/models/list/list.model';
 import { IPaginationOption, IPaginationResponse } from '@/models/types/pagination';
+import { IUserEntity } from '@/models/user/user.model';
 
 
 export interface IListRepository {

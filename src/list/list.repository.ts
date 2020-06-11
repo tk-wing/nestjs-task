@@ -1,15 +1,14 @@
-import { Repository, EntityRepository } from 'typeorm';
-import { IListModel } from '@/models/list/list.model';
 import { List } from '@/entities/list.entity';
-import { IListRepository } from '@/models/list/interface/repository.interface';
 import { User } from '@/entities/user.entity';
+import { IListRepository } from '@/models/list/interface/repository.interface';
+import { IListModel } from '@/models/list/list.model';
 import { NotFoundException } from '@nestjs/common';
-import { IExistCondition } from '../models/types/condition';
 import {
   IPaginationOptions,
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
+import { EntityRepository, Repository } from 'typeorm';
 
 @EntityRepository(List)
 export class ListRepository extends Repository<List>

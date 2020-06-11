@@ -1,7 +1,7 @@
-import { IUserEntity } from '@/models/user/user.model';
 import { IListEntity } from '@/models/list/list.model';
-import { ICreateListDto, IUpdateListDto } from '../dto/list.dto';
 import { IPaginationOption, IPaginationResponse } from '@/models/types/pagination';
+import { IUserEntity } from '@/models/user/user.model';
+import { ICreateListDto, IUpdateListDto } from '../dto/list.dto';
 
 export abstract class IListAppService {
   abstract getList(id: number, user: IUserEntity): Promise<IListEntity>;

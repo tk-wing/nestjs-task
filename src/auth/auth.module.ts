@@ -1,17 +1,17 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserRepository } from './user.repository';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtConfig } from '../config/jwt-config';
-import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './jwt.strategy';
+import { ListModule } from '@/list/list.module';
 import { ListRepository } from '@/list/list.repository';
+import { IAuthService } from '@/models/auth/interface/service.interface';
 import { IUserRepository } from '@/models/user/interface/repository.interface';
 import { UserService } from '@/models/user/user.model';
-import { ListModule } from '@/list/list.module';
-import { IAuthService } from '@/models/auth/interface/service.interface';
+import { Module, forwardRef } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtConfig } from '../config/jwt-config';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { JwtStrategy } from './jwt.strategy';
+import { UserRepository } from './user.repository';
 
 
 @Module({

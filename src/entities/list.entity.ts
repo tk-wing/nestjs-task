@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, BaseEntity, ManyToOne, JoinColumn, OneToMany, RelationCount } from 'typeorm';
-import { User } from './user.entity';
-import { Task } from './task.entity';
 import { IListEntity } from '@/models/list/list.model';
+import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationCount, UpdateDateColumn } from 'typeorm';
+import { Task } from './task.entity';
+import { User } from './user.entity';
 
 @Entity('lists')
 export class List extends BaseEntity implements IListEntity {
@@ -23,11 +23,11 @@ export class List extends BaseEntity implements IListEntity {
   @DeleteDateColumn({ type: 'datetime', name: 'deleted_at', nullable: true})
   readonly deletedAt!: Date;
 
-  @ManyToOne(type => User, user => user.lists)
+  @ManyToOne(() => User, user => user.lists)
   @JoinColumn({ name: 'user_id'})
   user!: User;
 
-  @OneToMany(type => Task, task => task.list)
+  @OneToMany(() => Task, task => task.list)
   tasks!: Task[];
 
   @RelationCount('tasks')

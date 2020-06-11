@@ -1,7 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, BaseEntity } from "typeorm";
-import { User } from "./user.entity";
+import { ITaskEntity, TaskStatus } from '@/models/task/task.model';
+import {BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { List } from './list.entity';
-import { TaskStatus, ITaskEntity } from '@/models/task/task.model';
+import { User } from "./user.entity";
 
 @Entity('tasks')
 export class Task extends BaseEntity implements ITaskEntity {
@@ -38,11 +38,11 @@ export class Task extends BaseEntity implements ITaskEntity {
   @DeleteDateColumn({ type: 'datetime', name: 'deleted_at', nullable: true})
   readonly deletedAt!: Date;
 
-  @ManyToOne(type => User, user => user.tasks)
+  @ManyToOne(() => User, user => user.tasks)
   @JoinColumn({ name: 'user_id'})
   user!: User;
 
-  @ManyToOne(type => List, list => list.tasks)
+  @ManyToOne(() => List, list => list.tasks)
   @JoinColumn({ name: 'list_id'})
   list!: List;
 

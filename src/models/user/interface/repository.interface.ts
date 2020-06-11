@@ -1,6 +1,6 @@
 import { User } from '../../../entities/user.entity';
-import { IUserModel } from '../user.model';
 import { IJwtPayload } from '../../auth/jwt';
+import { IUserModel } from '../user.model';
 
 
 export interface IUserRepository {

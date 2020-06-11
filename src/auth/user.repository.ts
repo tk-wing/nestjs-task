@@ -1,9 +1,9 @@
-import { EntityRepository, Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
 import { User } from '@/entities/user.entity';
-import { IUserRepository } from '@/models/user/interface/repository.interface';
 import { IJwtPayload } from '@/models/auth/jwt';
+import { IUserRepository } from '@/models/user/interface/repository.interface';
 import { IUserModel } from '@/models/user/user.model';
+import { NotFoundException } from '@nestjs/common';
+import { EntityRepository, Repository } from 'typeorm';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> implements IUserRepository {

@@ -1,11 +1,11 @@
-import { Controller, UseGuards, Post, ValidationPipe, UsePipes, Body, Inject, Get, Query, Param, ParseIntPipe, Patch, Delete } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '@/decorator/get-user.decorator';
-import { CreateListDto } from '@/list/dto/create-list.dto';
 import { User } from '@/entities/user.entity';
-import { IListAppService } from '@/models/list/interface/service.interface';
+import { CreateListDto } from '@/list/dto/create-list.dto';
 import { UpdateListDto } from '@/list/dto/update-list.dto';
+import { IListAppService } from '@/models/list/interface/service.interface';
 import { PaginationDto } from '@/provider/pagination/pagination.dto';
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('list')
 @UseGuards(AuthGuard())

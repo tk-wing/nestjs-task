@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  api-server:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    ports:
+      - 80:3000
+    volumes:
+      - ./:/home/app/DocumentRoot
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: nestjs_task
+      MYSQL_USER: nestjs
+      MYSQL_PASSWORD: nestjs
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/:/var/lib/mysql/

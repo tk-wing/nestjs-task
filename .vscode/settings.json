@@ -1,6 +1,8 @@
 {
   "cSpell.ignoreWords": [
+    "nestjs",
     "paginatable",
-    "signup"
+    "signup",
+    "typeorm"
   ]
 }

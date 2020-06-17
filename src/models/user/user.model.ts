@@ -28,13 +28,13 @@ export class UserService {
 
     let result = await this.userRepository.isExist({ username: userModel.username});
 
-    if(!result) {
+    if(result) {
       return new Error('User Name Already exist');
     }
 
     result = await this.userRepository.isExist({ mail: userModel.mail});
 
-    if(!result) {
+    if(result) {
       return new Error('E-mail Already exist');
     }
 

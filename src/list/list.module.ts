@@ -1,6 +1,6 @@
 import { IListRepository } from '@/models/list/interface/repository.interface';
 import { IListAppService } from '@/models/list/interface/service.interface';
-import { ListService } from '@/models/list/list.model';
+import { ListService } from '@/models/list/list.service';
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '../auth/auth.module';

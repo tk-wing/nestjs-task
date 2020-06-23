@@ -3,9 +3,9 @@ import { User } from '@/entities/user.entity';
 import { ICreateListDto, IUpdateListDto } from '@/models/list/dto/list.dto';
 import { IListRepository } from '@/models/list/interface/repository.interface';
 import { IListAppService } from '@/models/list/interface/service.interface';
-import { IListEntity, ListModel, ListService } from '@/models/list/list.model';
-import { IPaginationOption, IPaginationResponse } from '@/models/types/pagination';
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { ListEntity, ListModel } from '@/models/list/list.model';
+import { ListService } from '@/models/list/list.service';
+import { BadRequestException, ConflictException, Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -19,44 +19,51 @@ export class ListAppService extends IListAppService {
     super();
   }
 
-  async getList(id: number, user: User): Promise<IListEntity> {
+  async getList(id: number, user: User): Promise<ListEntity> {
     return await this.listRepository.getList(id, user);
   }
 
-  async getLists(paginationOptions: IPaginationOption, user: User): Promise<IPaginationResponse<IListEntity>> {
-    return await this.listRepository.getLists(paginationOptions, user);
+  async getLists(user: User): Promise<ListEntity[]> {
+    return await this.listRepository.getLists(user);
   }
 
-  async createList(request: ICreateListDto, user: User): Promise<IListEntity> {
+  async createList(request: ICreateListDto, user: User): Promise<ListEntity> {
     const { name } = request;
     const listModel = new ListModel({
       userId: user.id,
       name: name,
     });
 
-    const result = await this.listService.isDuplicate(listModel);
+    let result = await this.listService.isDuplicate(listModel);
 
     if(result instanceof Error) {
       const message = result.message;
       throw new ConflictException(message);
+    }
+
+    result = await this.listService.isFull(listModel);
+
+    if(result instanceof Error) {
+      const message = result.message;
+      throw new BadRequestException(message);
     }
 
     return await this.listRepository.createList(listModel);
   }
 
-  async updateList(id: number, request: IUpdateListDto, user: User): Promise<IListEntity> {
+  async updateList(id: number, request: IUpdateListDto, user: User): Promise<void> {
     const { name } = request;
-    const list = await this.listRepository.getList(id, user);
-    list.name = name;
+    const listEntity = await this.listRepository.getList(id, user);
+    listEntity.name = name;
 
-    const result = await this.listService.isDuplicate(list);
+    const result = await this.listService.isDuplicate(listEntity);
 
     if(result instanceof Error) {
       const message = result.message;
       throw new ConflictException(message);
     }
 
-    return await this.listRepository.updateList(list);
+    await this.listRepository.updateList(listEntity);
   }
 
   async deleteList(id: number, user: User): Promise<void> {

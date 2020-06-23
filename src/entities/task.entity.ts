@@ -1,10 +1,11 @@
-import { ITaskEntity, TaskStatus } from '@/models/task/task.model';
+import { IDataModel } from '@/models/data.model';
+import { TaskStatus, TaskEntity } from '@/models/task/task.model';
 import {BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { List } from './list.entity';
 import { User } from "./user.entity";
 
 @Entity('tasks')
-export class Task extends BaseEntity implements ITaskEntity {
+export class Task extends BaseEntity implements IDataModel<TaskEntity> {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
@@ -51,6 +52,19 @@ export class Task extends BaseEntity implements ITaskEntity {
     this.userId = userId;
     this.title = title;
   }
+  toAppEntity(): TaskEntity {
+    return new TaskEntity({
+      id: this.id,
+      userId: this.userId,
+      listId: this.listId,
+      title: this.title,
+      description: this.description,
+      expiredAt: this.expiredAt,
+      doneAt: this.doneAt,
+    });
+  }
+
+
 
 }
 

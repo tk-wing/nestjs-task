@@ -1,13 +1,7 @@
-import { IUserRepository } from './interface/repository.interface';
-
 export interface IUserModel {
   username: string;
   mail: string;
   password: string;
-}
-
-export interface IUserEntity extends IUserModel {
-  readonly id: number;
 }
 
 export class UserModel implements IUserModel {
@@ -22,22 +16,11 @@ export class UserModel implements IUserModel {
   }
 }
 
-export class UserService {
-  constructor(private userRepository: IUserRepository) {}
-  async isDuplicate(userModel: UserModel): Promise<boolean | Error> {
+export class UserEntity extends UserModel {
+  readonly id: number;
 
-    let result = await this.userRepository.isExist({ username: userModel.username});
-
-    if(result) {
-      return new Error('User Name Already exist');
-    }
-
-    result = await this.userRepository.isExist({ mail: userModel.mail});
-
-    if(result) {
-      return new Error('E-mail Already exist');
-    }
-
-    return result;
+  constructor(value: { id: number, username: string; mail: string; password: string }) {
+    super(value);
+    this.id = value.id;
   }
 }

@@ -2,7 +2,8 @@ import { IAuthCredentialsDto, IAuthSignupDto } from '@/models/auth/dto/auth.dto'
 import { IAuthService } from '@/models/auth/interface/service.interface';
 import { IAccessToken, IJwtPayload } from '@/models/auth/jwt';
 import { IUserRepository } from '@/models/user/interface/repository.interface';
-import { IUserEntity, UserModel, UserService } from '@/models/user/user.model';
+import { UserEntity, UserModel } from '@/models/user/user.model';
+import { UserService } from '@/models/user/user.service';
 import {
   ConflictException,
   Injectable,
@@ -60,7 +61,7 @@ export class AuthService extends IAuthService {
     return await bcrypt.hash(password, 8);
   }
 
-  async validate(password: string, user: IUserEntity): Promise<boolean> {
+  async validate(password: string, user: UserEntity): Promise<boolean> {
     return await bcrypt.compare(password, user.password);
   }
 }

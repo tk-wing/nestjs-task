@@ -1,11 +1,6 @@
-import { IListRepository } from '@/models/list/interface/repository.interface';
 export interface IListModel {
   readonly userId: number;
   name: string;
-}
-
-export interface IListEntity extends IListModel {
-  readonly id: number;
 }
 
 export class ListModel implements IListModel {
@@ -18,29 +13,16 @@ export class ListModel implements IListModel {
   }
 }
 
-export class ListService {
-  constructor(private listRepository: IListRepository) {}
+export class ListEntity extends ListModel {
+  readonly id: number;
 
-  async isDuplicate(listModel: ListModel): Promise<boolean | Error> {
-    const result = await this.listRepository.isExist({
-      userId: listModel.userId,
-      name: listModel.name,
-    });
+  taskCount = 0;
 
-    if (!result) {
-      return new Error('List name Already exists');
-    }
-
-    return result;
+  constructor(value: { id: number, userId: number; name: string }) {
+    super(value);
+    this.id = value.id;
   }
 
-  async isDelete(listModel: ListModel): Promise<boolean | Error> {
-    const result = await this.listRepository.countListByUserId(listModel.userId);
-
-    if(result > 1) {
-      return new Error('List needs one at least');
-    }
-
-    return true;
-  }
 }
+
+

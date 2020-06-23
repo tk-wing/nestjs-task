@@ -4,18 +4,19 @@ import { IUserRepository } from '@/models/user/interface/repository.interface';
 import { IUserModel } from '@/models/user/user.model';
 import { NotFoundException } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
+import { UserEntity } from '../models/user/user.model';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> implements IUserRepository {
 
-  async getUser(request: IJwtPayload): Promise<User> {
+  async getUser(request: IJwtPayload): Promise<UserEntity> {
     const user = await this.findOne({ mail: request.mail});
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    return user;
+    return user.toAppEntity();
   }
 
   async isExist(condition: Partial<IUserModel>): Promise<boolean> {
@@ -24,13 +25,13 @@ export class UserRepository extends Repository<User> implements IUserRepository 
     return result !== undefined;
   }
 
-  async createUser(userModel: IUserModel): Promise<User> {
+  async createUser(userModel: IUserModel): Promise<UserEntity> {
     const user = new User();
     user.username = userModel.username;
     user.mail = userModel.mail;
     user.password = userModel.password;
 
-    return await user.save();
+    return await (await user.save()).toAppEntity();
   }
 
 }

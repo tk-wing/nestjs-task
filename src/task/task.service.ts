@@ -4,9 +4,9 @@ import { IListRepository } from '@/models/list/interface/repository.interface';
 import { ICreateTaskDto, IFilterTaskDto, IUpdateTaskDto, IUpdateTaskStatusDto } from '@/models/task/dto/task.dto';
 import { ITaskRepository } from '@/models/task/interface/repository.interface';
 import { ITaskAppService } from '@/models/task/interface/service.interface';
-import { ITaskEntity, TaskModel, TaskStatus } from '@/models/task/task.model';
-import { IPaginationOption, IPaginationResponse } from '@/models/types/pagination';
-import { IUserEntity } from '@/models/user/user.model';
+import { TaskEntity, TaskModel, TaskStatus } from '@/models/task/task.model';
+import { IPaginationOption, Pagination } from '@/models/types/pagination';
+import { UserEntity } from '@/models/user/user.model';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -21,15 +21,15 @@ export class TaskAppService extends ITaskAppService  {
       super();
     }
 
-  async getTask(id: number, user: IUserEntity): Promise<ITaskEntity> {
+  async getTask(id: number, user: UserEntity): Promise<TaskEntity> {
     return await this.taskRepository.getTask(id, user);
   }
 
-  async getTasks(paginationOptions: IPaginationOption, filterTaskDto: IFilterTaskDto, user: IUserEntity): Promise<IPaginationResponse<ITaskEntity>> {
+  async getTasks(paginationOptions: IPaginationOption, filterTaskDto: IFilterTaskDto, user: UserEntity): Promise<Pagination<TaskEntity>> {
     return await this.taskRepository.getTasks(paginationOptions, filterTaskDto, user);
   }
 
-  async createTask(request: ICreateTaskDto, user: IUserEntity): Promise<ITaskEntity> {
+  async createTask(request: ICreateTaskDto, user: UserEntity): Promise<TaskEntity> {
     const {title, description, listId, expiredAt} = request;
 
     const list = await this.listRepository.getList(listId, user);
@@ -45,7 +45,7 @@ export class TaskAppService extends ITaskAppService  {
     return await this.taskRepository.createTask(taskModel);
   }
 
-  async updateTask(id: number, request: IUpdateTaskDto, user: IUserEntity): Promise<ITaskEntity>{
+  async updateTask(id: number, request: IUpdateTaskDto, user: UserEntity): Promise<void>{
     const { description, expiredAt} = request;
     const task = await this.getTask(id, user);
 
@@ -57,10 +57,10 @@ export class TaskAppService extends ITaskAppService  {
       task.expiredAt = expiredAt;
     }
 
-    return await this.taskRepository.updateTask(task);
+    await this.taskRepository.updateTask(task);
   }
 
-  async updateTaskStatus(id: number, request: IUpdateTaskStatusDto, user: IUserEntity): Promise<ITaskEntity> {
+  async updateTaskStatus(id: number, request: IUpdateTaskStatusDto, user: UserEntity): Promise<void> {
     const { status } = request;
     const task = await this.getTask(id, user);
 
@@ -70,10 +70,10 @@ export class TaskAppService extends ITaskAppService  {
       task.doneAt = new Date();
     }
 
-    return await this.taskRepository.updateTask(task);
+    await this.taskRepository.updateTask(task);
   }
 
-  async deleteTask(id: number, user: IUserEntity): Promise<void> {
+  async deleteTask(id: number, user: UserEntity): Promise<void> {
     await this.taskRepository.deleteTask(id, user);
   }
 }

@@ -1,7 +1,7 @@
 import { GetUser } from '@/decorator/get-user.decorator';
 import { User } from '@/entities/user.entity';
+import { PaginationDto } from '@/models/pagination.dto';
 import { ITaskAppService } from '@/models/task/interface/service.interface';
-import { PaginationDto } from '@/provider/pagination/pagination.dto';
 import { CreateTaskDto } from '@/task/dto/create-task.dto';
 import { FilterTaskDto } from '@/task/dto/filter-task.dto';
 import { UpdateTaskStatusDto } from '@/task/dto/update-task-status.dto';

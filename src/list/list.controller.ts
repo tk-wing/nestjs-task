@@ -3,8 +3,7 @@ import { User } from '@/entities/user.entity';
 import { CreateListDto } from '@/list/dto/create-list.dto';
 import { UpdateListDto } from '@/list/dto/update-list.dto';
 import { IListAppService } from '@/models/list/interface/service.interface';
-import { PaginationDto } from '@/provider/pagination/pagination.dto';
-import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, UseGuards, UsePipes, ValidationPipe, Patch } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('list')
@@ -19,10 +18,9 @@ export class ListController {
   @Get()
   @UsePipes(new ValidationPipe({ transform: true}))
   async index(
-    @Query() paginationOptions: PaginationDto,
     @GetUser() user: User,
   ) {
-    return this.listAppService.getLists(paginationOptions, user);
+    return this.listAppService.getLists(user);
   }
 
   @Get('/:id')

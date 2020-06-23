@@ -1,14 +1,13 @@
-import { IListEntity, IListModel } from '@/models/list/list.model';
-import { IPaginationOption, IPaginationResponse } from '@/models/types/pagination';
-import { IUserEntity } from '@/models/user/user.model';
+import { ListEntity, ListModel } from '@/models/list/list.model';
+import { UserEntity } from '@/models/user/user.model';
 
 
 export interface IListRepository {
-  isExist(condition: Partial<IListModel>): Promise<boolean>;
+  isExist(condition: Partial<ListModel>): Promise<boolean>;
   countListByUserId(userId: number): Promise<number>;
-  getList(id: number, user: IUserEntity): Promise<IListEntity>;
-  getLists(paginationOptions: IPaginationOption, user: IUserEntity): Promise<IPaginationResponse<IListEntity>>;
-  createList(listModel: IListModel): Promise<IListEntity>;
-  updateList(list: IListEntity): Promise<IListEntity>;
-  deleteList(id: number, user: IUserEntity): Promise<void>;
+  getList(id: number, user: UserEntity): Promise<ListEntity>;
+  getLists(user: UserEntity): Promise<ListEntity[]>;
+  createList(listModel: ListModel): Promise<ListEntity>;
+  updateList(list: ListEntity): Promise<boolean>;
+  deleteList(id: number, user: UserEntity): Promise<boolean>;
 }

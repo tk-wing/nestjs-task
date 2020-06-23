@@ -14,10 +14,6 @@ export interface ITaskModel {
   doneAt: Date;
 }
 
-export interface ITaskEntity extends ITaskModel{
-  readonly id: number
-}
-
 export class TaskModel implements ITaskModel {
   readonly userId: number;
   listId!: number;
@@ -29,12 +25,14 @@ export class TaskModel implements ITaskModel {
 
   constructor(value :{
     userId: number,
+    listId: number,
     title: string,
     description?: string,
-    listId?: number,
     expiredAt?: Date,
+    doneAt?: Date,
   }) {
     this.userId = value.userId;
+    this.listId = value.listId;
     this.title = value.title;
     this.status = TaskStatus.OPEN;
 
@@ -42,12 +40,29 @@ export class TaskModel implements ITaskModel {
       this.description = value.description;
     }
 
-    if(value.listId) {
-      this.listId = value.listId;
-    }
-
     if(value.expiredAt) {
       this.expiredAt = value.expiredAt;
     }
+
+    if(value.doneAt) {
+      this.doneAt = value.doneAt;
+    }
+  }
+}
+
+export class TaskEntity extends TaskModel {
+  readonly id: number
+
+  constructor(value :{
+    id: number,
+    userId: number,
+    listId: number,
+    title: string,
+    description?: string,
+    expiredAt?: Date,
+    doneAt?: Date,
+  }){
+    super(value);
+    this.id = value.id;
   }
 }
